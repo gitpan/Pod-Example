@@ -6,6 +6,7 @@ use strict;
 use warnings;
 
 # Modules.
+use Error::Pure qw(err);
 use Module::Info;
 use Pod::Abstract;
 use Readonly;
@@ -15,7 +16,7 @@ Readonly::Array our @EXPORT_OK => qw(get);
 Readonly::Scalar my $EMPTY_STR => q{};
 
 # Version.
-our $VERSION = 0.01;
+our $VERSION = 0.02;
 
 # Get content for file or module.
 sub get {
@@ -28,7 +29,11 @@ sub get {
 
 	# Module.
 	} else {
-		$file = Module::Info->new_from_module($file_or_module)->file;
+		my $mod = Module::Info->new_from_module($file_or_module);
+		if (! $mod) {
+			err 'Cannot open pod file or Perl module.';
+		}
+		$file = $mod->file;
 	}
 
 	# Get pod.
@@ -149,7 +154,8 @@ Pod::Example - Module for getting example from POD.
 
 =head1 ERRORS
 
- None.
+ Mine:
+         Cannot open pod file or Perl module.
 
 =head1 EXAMPLE
 
@@ -168,10 +174,11 @@ Pod::Example - Module for getting example from POD.
 
 =head1 DEPENDENCIES
 
-L<Exporter(3pm)>,
-L<Module::Info(3pm)>,
-L<Pod::Abstract(3pm)>,
-L<Readonly(3pm)>.
+L<Error::Pure>,
+L<Exporter>,
+L<Module::Info>,
+L<Pod::Abstract>,
+L<Readonly>.
 
 =head1 REPOSITORY
 
@@ -189,6 +196,6 @@ BSD license.
 
 =head1 VERSION
 
-0.01
+0.02
 
 =cut
