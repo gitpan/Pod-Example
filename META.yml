@@ -31,9 +31,10 @@ requires:
   Module::Info: 0
   Pod::Abstract: 0
   Readonly: 0
+  perl: 5.6.2
 resources:
   bugtracker: https://rt.cpan.org/Public/Dist/Display.html?Name=Pod-Example
   homepage: https://github.com/tupinek/Pod-Example
   license: http://opensource.org/licenses/bsd-license.php
   repository: git://github.com/tupinek/Pod-Example
-version: 0.04
+version: 0.05
