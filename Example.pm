@@ -16,7 +16,7 @@ Readonly::Array our @EXPORT_OK => qw(get sections);
 Readonly::Scalar my $EMPTY_STR => q{};
 
 # Version.
-our $VERSION = 0.05;
+our $VERSION = 0.06;
 
 # Get content for file or module.
 sub get {
@@ -187,9 +187,11 @@ Pod::Example - Module for getting example from POD.
 =item C<get($file_or_module[, $section[, $number_of_example]])>
 
  Returns code of example.
- $file_or_module - File with pod doc or perl module.
- $section - Pod section with example. Default value is 'EXAMPLE'.
- $number_of_example - Number of example. Default value is first example.
+ $file_or_module    - File with pod doc or perl module.
+ $section           - Pod section with example. Default value is 'EXAMPLE'.
+ $number_of_example - Number of example. If exists 'EXAMPLE1' and 'EXAMPLE2'
+                      sections, then this number can be '1' or '2'.
+                      Default value is nothing.
 
 =item C<sections($file_or_module[, $section])>
 
@@ -201,7 +203,10 @@ Pod::Example - Module for getting example from POD.
 
 =head1 ERRORS
 
- Mine:
+ get():
+         Cannot open pod file or Perl module.
+
+ sections():
          Cannot open pod file or Perl module.
 
 =head1 EXAMPLE1
@@ -260,6 +265,6 @@ BSD license.
 
 =head1 VERSION
 
-0.05
+0.06
 
 =cut
