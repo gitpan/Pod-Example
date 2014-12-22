@@ -16,7 +16,7 @@ Readonly::Array our @EXPORT_OK => qw(get sections);
 Readonly::Scalar my $EMPTY_STR => q{};
 
 # Version.
-our $VERSION = 0.06;
+our $VERSION = 0.07;
 
 # Get content for file or module.
 sub get {
@@ -67,8 +67,25 @@ sub _get_content {
 	}
 
 	# Get pod.
-	my @child = $pod_section->children;
-	my $child_pod = join '', map { $_->pod } @child;
+	my $child_pod = $EMPTY_STR;
+	foreach my $child ($pod_section->children) {
+		if ($child->type eq 'begin') {
+
+			# Skip =begin html
+			if ($child->body =~ m/^html/ms) {
+				next;
+
+			# =begin text as commented text.
+			} elsif ($child->body =~ m/^text/ms) {
+				$child_pod .= join "\n",
+					map { ' #'.$_ }
+					split m/\n/ms,
+					($child->children)[0]->pod;
+			}
+		} else {
+			$child_pod .= $child->pod;
+		}
+	}
 
 	# Remove spaces and return.
 	return _remove_spaces($child_pod);
@@ -261,10 +278,11 @@ L<http://skim.cz>
 
 =head1 LICENSE AND COPYRIGHT
 
-BSD license.
+ © 2011-2014 Michal Špaček
+ BSD 2-Clause License
 
 =head1 VERSION
 
-0.06
+0.07
 
 =cut

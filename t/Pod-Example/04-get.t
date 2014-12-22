@@ -6,7 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 use File::Object;
 use Pod::Example qw(get);
-use Test::More 'tests' => 13;
+use Test::More 'tests' => 15;
 use Test::NoWarnings;
 
 # Load module.
@@ -107,3 +107,36 @@ eval {
 };
 is($EVAL_ERROR, "Cannot open pod file or Perl module.\n",
 	'Cannot open pod file or Perl module.');
+
+# Test.
+$ret = get($modules_dir->file('Ex7.pm')->s);
+$right_ret = <<'END';
+# Pragmas.
+use strict;
+use warnings;
+
+# Print.
+print "Foo.\n";
+END
+chomp $right_ret;
+is($ret, $right_ret, 'Example with inner html code.');
+
+# Test.
+$ret = get($modules_dir->file('Ex8.pm')->s);
+$right_ret = <<'END';
+# Pragmas.
+use strict;
+use warnings;
+
+# Print.
+print "Foo.\n";
+
+#   +-------------+
+#   |  foo        |
+#   |        bar  |
+#   +-------------+
+#
+# ^^^^ Figure 1. ^^^^
+END
+chomp $right_ret;
+is($ret, $right_ret, 'Example with inner text code.');

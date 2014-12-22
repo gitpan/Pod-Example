@@ -7,7 +7,7 @@ use inc::Module::Install;
 
 # Definition.
 abstract 'Module for getting example from POD.';
-author 'Michal Špaček <skim@cpan.org>';
+author 'Michal Spacek <skim@cpan.org>';
 license 'bsd';
 name 'Pod-Example';
 readme_from 'Example.pm';
@@ -28,7 +28,7 @@ test_requires 'Test::NoWarnings' => 0;
 test_requires 'Test::Pod' => 0;
 test_requires 'Test::Pod::Coverage' => 0;
 tests_recursive;
-version '0.06';
+version '0.07';
 
 # Run.
 WriteAll();
